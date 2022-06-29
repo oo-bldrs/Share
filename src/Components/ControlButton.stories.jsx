@@ -1,24 +1,27 @@
 import React from 'react'
-import {TooltipIconButton} from '../../Components/Buttons'
-import {AddCircle, ArrowBack, ArrowForward, Check} from '@mui/icons-material'
+import {useArgs} from '@storybook/addons'
+import {ControlButton} from './Buttons'
+import {AddCircle, Announcement, ArrowBack, ArrowForward, Check, Help} from '@mui/icons-material'
+import Dialog from './Dialog'
 
 
 export default {
-  title: 'BLDRS UI/Buttons/TooltipIconButton',
-  component: TooltipIconButton,
+  title: 'BLDRS UI/Buttons/ControlButton',
+  component: ControlButton,
   argTypes: {
     icon: {
-      options: ['add', 'back', 'check', 'forward'],
+      options: ['add', 'back', 'check', 'forward', 'help'],
       mapping: {
         add: <AddCircle />,
         back: <ArrowBack />,
         check: <Check />,
         forward: <ArrowForward />,
+        help: <Help />,
       },
       control: {
         type: 'select',
       },
-      defaultValue: 'check',
+      defaultValue: 'help',
     },
 
     onClick: {
@@ -57,14 +60,9 @@ export default {
       },
       defaultValue: 'medium',
     },
-
-    dataTestId: {
-      control: {
-        type: 'text',
-      },
-    },
   },
   args: {
+    isDialogDisplayed: true,
     title: 'Only Appears on Hover',
   },
   parameters: {
@@ -75,7 +73,20 @@ export default {
 }
 
 const Template = (args) => {
-  return <TooltipIconButton
+  const [{isDialogDisplayed}, updateArgs] = useArgs()
+  const setIsDialogDisplayed = (v) => updateArgs({isDialogDisplayed: v})
+  const dialog = <Dialog
+    icon={<Announcement />}
+    headerText={'Example Dialog'}
+    isDialogDisplayed={isDialogDisplayed}
+    setIsDialogDisplayed={setIsDialogDisplayed}
+    content={<>Example content.</>}
+  />
+
+  return <ControlButton
+    isDialogDisplayed={isDialogDisplayed}
+    setIsDialogDisplayed={setIsDialogDisplayed}
+    dialog={dialog}
     {...args}
   />
 }

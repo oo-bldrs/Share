@@ -1,27 +1,24 @@
 import React from 'react'
-import {useArgs} from '@storybook/addons'
-import {ControlButton} from '../../Components/Buttons'
-import {AddCircle, Announcement, ArrowBack, ArrowForward, Check, Help} from '@mui/icons-material'
-import Dialog from '../../Components/Dialog'
+import {TooltipToggleButton} from './Buttons'
+import {AddCircle, ArrowBack, ArrowForward, Check} from '@mui/icons-material'
 
 
 export default {
-  title: 'BLDRS UI/Buttons/ControlButton',
-  component: ControlButton,
+  title: 'BLDRS UI/Buttons/TooltipToggleButton',
+  component: TooltipToggleButton,
   argTypes: {
     icon: {
-      options: ['add', 'back', 'check', 'forward', 'help'],
+      options: ['add', 'back', 'check', 'forward'],
       mapping: {
         add: <AddCircle />,
         back: <ArrowBack />,
         check: <Check />,
         forward: <ArrowForward />,
-        help: <Help />,
       },
       control: {
         type: 'select',
       },
-      defaultValue: 'help',
+      defaultValue: 'check',
     },
 
     onClick: {
@@ -46,7 +43,7 @@ export default {
         'top-start': 'top-start',
         'top': 'top',
       },
-      defaultValue: 'right',
+      defaultValue: 'left',
     },
 
     size: {
@@ -62,7 +59,6 @@ export default {
     },
   },
   args: {
-    isDialogDisplayed: true,
     title: 'Only Appears on Hover',
   },
   parameters: {
@@ -73,20 +69,7 @@ export default {
 }
 
 const Template = (args) => {
-  const [{isDialogDisplayed}, updateArgs] = useArgs()
-  const setIsDialogDisplayed = (v) => updateArgs({isDialogDisplayed: v})
-  const dialog = <Dialog
-    icon={<Announcement />}
-    headerText={'Example Dialog'}
-    isDialogDisplayed={isDialogDisplayed}
-    setIsDialogDisplayed={setIsDialogDisplayed}
-    content={<>Example content.</>}
-  />
-
-  return <ControlButton
-    isDialogDisplayed={isDialogDisplayed}
-    setIsDialogDisplayed={setIsDialogDisplayed}
-    dialog={dialog}
+  return <TooltipToggleButton
     {...args}
   />
 }

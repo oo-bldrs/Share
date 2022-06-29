@@ -1,24 +1,25 @@
 import React from 'react'
-import {TooltipToggleButton} from '../../Components/Buttons'
-import {AddCircle, ArrowBack, ArrowForward, Check} from '@mui/icons-material'
+import {FormButton} from './Buttons'
+import {AddCircle, ArrowBack, ArrowForward, Check, Search} from '@mui/icons-material'
 
 
 export default {
-  title: 'BLDRS UI/Buttons/TooltipToggleButton',
-  component: TooltipToggleButton,
+  title: 'BLDRS UI/Buttons/FormButton',
+  component: FormButton,
   argTypes: {
     icon: {
-      options: ['add', 'back', 'check', 'forward'],
+      options: ['add', 'back', 'check', 'forward', 'search'],
       mapping: {
         add: <AddCircle />,
         back: <ArrowBack />,
         check: <Check />,
         forward: <ArrowForward />,
+        search: <Search />,
       },
       control: {
         type: 'select',
       },
-      defaultValue: 'check',
+      defaultValue: 'search',
     },
 
     onClick: {
@@ -57,6 +58,15 @@ export default {
       },
       defaultValue: 'medium',
     },
+
+    type: {
+      control: {
+        type: 'select',
+      },
+      options: {
+        submit: 'submit',
+      },
+    },
   },
   args: {
     title: 'Only Appears on Hover',
@@ -69,7 +79,7 @@ export default {
 }
 
 const Template = (args) => {
-  return <TooltipToggleButton
+  return <FormButton
     {...args}
   />
 }

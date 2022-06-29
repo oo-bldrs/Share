@@ -1,25 +1,24 @@
 import React from 'react'
-import {FormButton} from '../../Components/Buttons'
-import {AddCircle, ArrowBack, ArrowForward, Check, Search} from '@mui/icons-material'
+import {TooltipIconButton} from './Buttons'
+import {AddCircle, ArrowBack, ArrowForward, Check} from '@mui/icons-material'
 
 
 export default {
-  title: 'BLDRS UI/Buttons/FormButton',
-  component: FormButton,
+  title: 'BLDRS UI/Buttons/TooltipIconButton',
+  component: TooltipIconButton,
   argTypes: {
     icon: {
-      options: ['add', 'back', 'check', 'forward', 'search'],
+      options: ['add', 'back', 'check', 'forward'],
       mapping: {
         add: <AddCircle />,
         back: <ArrowBack />,
         check: <Check />,
         forward: <ArrowForward />,
-        search: <Search />,
       },
       control: {
         type: 'select',
       },
-      defaultValue: 'search',
+      defaultValue: 'check',
     },
 
     onClick: {
@@ -44,7 +43,7 @@ export default {
         'top-start': 'top-start',
         'top': 'top',
       },
-      defaultValue: 'left',
+      defaultValue: 'right',
     },
 
     size: {
@@ -59,12 +58,9 @@ export default {
       defaultValue: 'medium',
     },
 
-    type: {
+    dataTestId: {
       control: {
-        type: 'select',
-      },
-      options: {
-        submit: 'submit',
+        type: 'text',
       },
     },
   },
@@ -79,7 +75,7 @@ export default {
 }
 
 const Template = (args) => {
-  return <FormButton
+  return <TooltipIconButton
     {...args}
   />
 }
