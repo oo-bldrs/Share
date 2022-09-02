@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useCallback, useContext, useEffect, useState} from 'react'
 import {useNavigate, useSearchParams, useLocation} from 'react-router-dom'
 import {Color, MeshLambertMaterial} from 'three'
 import {IfcViewerAPI} from 'web-ifc-viewer'
@@ -426,6 +426,9 @@ export default function CadView({
     })
   }
 
+  const onClickMenuCallback = useCallback(() => {
+    setShowNavPanel(!showNavPanel)
+  }, [showNavPanel])
 
   return (
     <div className={classes.root}>
@@ -439,7 +442,7 @@ export default function CadView({
         <div className={classes.search}>
           {showSearchBar && (
             <SearchBar
-              onClickMenuCb={() => setShowNavPanel(!showNavPanel)}
+              onClickMenuCb={onClickMenuCallback}
               showNavPanel={showNavPanel}
               isOpen={showNavPanel}
             />
