@@ -7,7 +7,7 @@ import SideDrawerWrapper from './SideDrawer'
 
 test('side drawer notes', async () => {
   const {result} = renderHook(() => useStore((state) => state))
-  act(() => {
+  await act(() => {
     result.current.turnCommentsOn()
     result.current.openDrawer()
   })
@@ -16,7 +16,7 @@ test('side drawer notes', async () => {
     expect(screen.getByText('Notes')).toBeInTheDocument()
   })
   // reset the store
-  act(() => {
+  await act(() => {
     result.current.turnCommentsOff()
   })
 })
@@ -24,7 +24,7 @@ test('side drawer notes', async () => {
 
 test('side drawer properties', async () => {
   const {result} = renderHook(() => useStore((state) => state))
-  act(() => {
+  await act(() => {
     result.current.toggleIsPropertiesOn()
     result.current.openDrawer()
   })
@@ -33,7 +33,7 @@ test('side drawer properties', async () => {
     expect(screen.getByText('Properties')).toBeInTheDocument()
   })
   // reset the store
-  act(() => {
+  await act(() => {
     result.current.setSelectedElement({})
     result.current.toggleIsPropertiesOn()
   })
@@ -42,9 +42,9 @@ test('side drawer properties', async () => {
 
 test('side drawer - issues id in url', async () => {
   const {result} = renderHook(() => useStore((state) => state))
-  const extractedCommentId = '1257156364'
-  act(() => {
-    result.current.setSelectedIssueId(Number(extractedCommentId))
+  const extractedIssueId = '1257156364'
+  await act(() => {
+    result.current.setSelectedIssueId(Number(extractedIssueId))
     result.current.turnCommentsOn()
     result.current.openDrawer()
   })
@@ -53,7 +53,7 @@ test('side drawer - issues id in url', async () => {
     expect(screen.getByText('BLDRS-LOCAL_MODE-ID:1257156364')).toBeInTheDocument()
   })
   // reset the store
-  act(() => {
+  await act(() => {
     result.current.setSelectedElement({})
     result.current.turnCommentsOff()
   })
@@ -64,17 +64,17 @@ test('side drawer - opened via URL', async () => {
   const {result} = renderHook(() => useStore((state) => state))
   const {getByText} = render(
       <ShareMock
-        initialEntries={['/v/p/index.ifc#i:1257156364::c:-26.91,28.84,112.47,-22,16.21,-3.48']}
+        initialEntries={['/v/p/index.ifc#i:2::c:-26.91,28.84,112.47,-22,16.21,-3.48']}
       >
         <SideDrawerWrapper/>
       </ShareMock>)
 
   await waitFor(() => {
-    expect(getByText('BLDRS-LOCAL_MODE-ID:1257156364')).toBeInTheDocument()
+    expect(getByText('LOCAL ISSUE 2')).toBeInTheDocument()
   })
 
   // reset the store
-  act(() => {
+  await act(() => {
     result.current.setSelectedElement({})
     result.current.turnCommentsOff()
   })
