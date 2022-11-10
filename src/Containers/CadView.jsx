@@ -20,6 +20,7 @@ import {navToDefault} from '../Share'
 import {hasValidUrlParams as urlHasCameraParams} from '../Components/CameraControl'
 import {useIsMobile} from '../Components/Hooks'
 import SearchIndex from './SearchIndex'
+import {getDownloadURL, parseGitHubRepositoryURL} from '../utils/GitHub'
 
 
 /**
@@ -185,14 +186,39 @@ export default function CadView({
   const setAlertMessage = (msg) =>
     setAlert(<Alert onCloseCb={() => navToDefault(navigate, appPrefix)} message={msg}/>)
 
+  const getGitHubDownloadURL = async (url) => {
+    const repo = parseGitHubRepositoryURL(url)
+    const downloadURL = await getDownloadURL({orgName: repo.owner, name: repo.repository}, repo.path, repo.ref, accessToken)
+    return downloadURL
+  }
+
+  const getFinalURL = async (url) => {
+    const u = new URL(url)
+
+    switch (u.host.toLowerCase()) {
+      case 'github.com':
+        if (accessToken === '') {
+          u.host = 'raw.githubusercontent.com'
+          return u.toString()
+        }
+
+        return await getGitHubDownloadURL(url)
+
+      default:
+        return url
+    }
+  }
+
   /**
    * Load IFC helper used by 1) useEffect on path change and 2) upload button.
    *
    * @param {string} filepath
    */
   async function loadIfc(filepath) {
+    const uploadedFile = pathPrefix.endsWith('new')
+
     debug().log(`CadView#loadIfc: `, filepath)
-    if (pathPrefix.endsWith('new')) {
+    if (uploadedFile) {
       const l = window.location
       filepath = filepath.split('.ifc')[0]
       const parts = filepath.split('/')
@@ -204,14 +230,15 @@ export default function CadView({
     setLoadingMessage(loadingMessageBase)
     setIsLoading(true)
 
-    if (accessToken !== '') {
-      viewer.IFC.loader.requestHeader = {
-        Authorization: `Bearer ${accessToken}`,
-      }
+    let ifcURL
+    if (!uploadedFile && accessToken !== '') {
+      ifcURL = await getFinalURL(filepath)
+    } else {
+      ifcURL = filepath
     }
 
     const loadedModel = await viewer.IFC.loadIfcUrl(
-        filepath,
+        ifcURL,
         !urlHasCameraParams(), // fitToFrame
         (progressEvent) => {
           if (Number.isFinite(progressEvent.loaded)) {
