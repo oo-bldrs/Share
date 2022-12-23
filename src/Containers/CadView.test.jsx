@@ -96,7 +96,8 @@ describe('CadView', () => {
     }
 
     const {result} = renderHook(() => useStore((state) => state))
-    const {container, findByLabelText, findByText, findByPlaceholderText, findByTitle} = render(
+
+    const {container} = render(
         <CadView
           installPrefix={''}
           appPrefix={''}
@@ -108,11 +109,11 @@ describe('CadView', () => {
         },
     )
 
-    await findByTitle('Open IFC')
-    await findByPlaceholderText('Search / Insert GitHub link')
+    await screen.findByTitle('Open IFC')
+    await screen.findByPlaceholderText('Search / Insert GitHub link')
 
-    await findByLabelText('IFC Navigator')
-    await findByText(targetElementName)
+    await screen.findByLabelText('IFC Navigator')
+    await screen.findByText(targetElementName)
 
     await waitFor(() => {
       expect(container.querySelector('div[data-model-ready]')
