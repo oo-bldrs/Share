@@ -14,6 +14,8 @@ module.exports = {
     'plugin:storybook/recommended',
     'plugin:jsdoc/recommended',
     'plugin:cypress/recommended',
+    'plugin:testing-library/react',
+    'plugin:jest-dom/recommended',
   ],
   overrides: [{
     files: ['*.js', '*.mjs', '*.jsx'],
@@ -37,6 +39,8 @@ module.exports = {
     'react',
     'jsx-a11y',
     'jsdoc',
+    'testing-library',
+    'jest-dom',
   ],
   rules: {
     'import/newline-after-import': ['error', {count: 2}],
