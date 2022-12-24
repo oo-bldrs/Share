@@ -1,5 +1,5 @@
 import React from 'react'
-import {act, fireEvent, render, renderHook, waitFor, waitForElementToBeRemoved} from '@testing-library/react'
+import {render, renderHook, screen, waitFor} from '@testing-library/react'
 import {__getIfcViewerAPIMockSingleton} from 'web-ifc-viewer'
 import useStore from '../store/useStore'
 import ShareMock from '../ShareMock'
@@ -88,8 +88,10 @@ describe('CadView', () => {
   })
 
   it('renders and selects the element ID from URL', async () => {
-    const targetElementId = testTree.children[0].expressID
-    const targetElementName = testTree.children[0].Name.value
+    // eslint-disable-next-line testing-library/no-node-access
+    const targetElement = testTree.children[0]
+    const targetElementId = targetElement.expressID
+    const targetElementName = targetElement.Name.value
     const modelPath = {
       filepath: `index.ifc`,
       gitpath: undefined,
@@ -121,8 +123,11 @@ describe('CadView', () => {
           .toEqual('true')
     })
 
+    expect(result.current.selectedElement).toEqual({
+      LongName: targetElement.LongName,
+      Name: targetElement.Name,
+    })
     expect(result.current.selectedElements).toEqual([`${targetElementId}`])
-    expect(result.current.selectedElement.Name.value).toEqual('Fake Site')
 
     const expectedNumOfCalls = 2 // First for root, second from URL path
     expect(viewerMock.getProperties).toHaveBeenCalledTimes(expectedNumOfCalls)
