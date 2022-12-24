@@ -89,6 +89,8 @@ export default function CadView({
   useEffect(() => {
     debug().log('CadView#useEffect1[modelPath], calling onModelPath...')
     onModelPath()
+
+    return () => cleanupViewer()
   }, [modelPath])
 
 
@@ -576,6 +578,21 @@ function initViewer(pathPrefix, backgroundColorStr = '#abcdef') {
   return v
 }
 
+/**
+ * Cleans up an existing viewer
+ *
+ * @param IFCViewerAPI
+ */
+const cleanupViewer = (viewer) => {
+  if (viewer === null || viewer === undefined) {
+    return
+  }
+
+  const container = viewer.container
+  container.textContent = ''
+
+  viewer.dispose()
+}
 
 const useStyles = makeStyles({
   root: {
