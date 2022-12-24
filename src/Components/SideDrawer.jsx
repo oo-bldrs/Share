@@ -122,8 +122,7 @@ export default function SideDrawerWrapper() {
     if (noteHash === undefined && isDrawerOpen) {
       setSelectedNoteId(null)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, openDrawer, setSelectedNoteId])
+  }, [location, openDrawer, setSelectedNoteId, turnCommentsOn])
 
 
   return (
