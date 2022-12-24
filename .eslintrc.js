@@ -100,6 +100,9 @@ module.exports = {
     'jsdoc/require-param': 'off',
     'jsdoc/require-param-type': 'off',
     'require-await': 'error',
+    'testing-library/no-debugging-utils': 'off',
+    'testing-library/prefer-screen-queries': 'warn',
+    'testing-library/prefer-find-by': 'warn',
   },
   settings: {
     react: {
